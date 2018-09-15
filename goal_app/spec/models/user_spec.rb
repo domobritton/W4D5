@@ -19,7 +19,7 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   
   before(:each) do 
-    john = User.create(username: 'Johnjohn', password: 'asdfef')
+    @john = User.create(username: 'Johnjohn', password: 'asdfef')
   end 
   
   it { should validate_presence_of(:username) }
@@ -31,13 +31,14 @@ RSpec.describe User, type: :model do
   describe 'session_token' do 
     it 'assigns session_token if not given' do
       #check out line 30
-      john = User.create(username: 'Johnjohn', password: 'asdfef')
-      expect(john.session_token).to be_present
+      # john = User.create(username: 'Johnjohn', password: 'asdfef')
+      # john = User.find_by(username: 'Johnjohn')
+      expect(@john.session_token).to be_present
     end 
   end 
   
   describe 'User::find_by_credentials' do 
-    john = User.create(username: 'Johnjohn', password: 'asdfef')
+    # john = User.create(username: 'Johnjohn', password: 'asdfef')
     it 'finds user with matching credentials' do 
       user = User.find_by_credentials('Johnjohn', 'asdfef')
       expect(user.username).to eq('Johnjohn')
@@ -51,7 +52,8 @@ RSpec.describe User, type: :model do
   
   describe 'User#reset_session_token!' do 
     it 'sets a new session token' do 
-      john = User.create(username: 'Johnjohn1', password: 'asdfef')
+      # john = User.create(username: 'Johnjohn', password: 'asdfef')
+      john = User.find_by(username: 'Johnjohn')
       old_session_token = john.session_token
       john.reset_session_token!
       expect(old_session_token).not_to eq(john.session_token)
